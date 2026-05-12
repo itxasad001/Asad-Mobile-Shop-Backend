@@ -11,6 +11,9 @@ const app = express()
 
 app.use(cors());
 
+/*app.use(cors({ origin: 'https://asad-mobile-shop-backend.vercel.app',
+     methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true }));*/
+
 app.use(express.json());
 
 
@@ -25,7 +28,7 @@ Database()
 app.use('/api/form',FormRouter)
 console.log("Router Successfully Developed")
 
-/*app.listen(process.env.PORT, ()=>{
+app.listen(process.env.PORT, ()=>{
 
     
 
@@ -37,7 +40,7 @@ console.log("Router Successfully Developed")
 })
 
 
-*/
+
 
 
 export default app;
