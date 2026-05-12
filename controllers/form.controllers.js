@@ -309,3 +309,72 @@ return res.status(200).json({
 
 
 
+export async function LastSevenDays(req,res){
+
+
+
+    try{
+
+
+        const sevenDaysAgo = new Date();
+sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+       
+const sevendaysdata = await FormModel.aggregate([
+  {
+    $match: {
+      createdAt: { $gte: sevenDaysAgo }
+    }
+  },
+  {
+    $group: {
+      _id: {
+        $dateToString: {
+          format: "%d-%b-%Y",
+          date: "$createdAt"
+        }
+      },
+      price: { $sum: "$price" },
+      sold: { $sum: "$sold" },
+      profit: { $sum: "$profit" },
+      sales: { $sum: 1 },
+      records: { $push: "$$ROOT" }
+    }
+  },
+  {
+    $sort: { _id: 1 }
+  }
+]);
+
+
+
+
+console.log(sevendaysdata)
+
+
+return res.status(200).json({
+    error:false,
+    success:true,
+    data:sevendaysdata
+})
+
+
+    }
+    catch(error){
+
+        return res.status(500).json({
+    error:true,
+    success:false,
+   message:error.message || error
+})
+
+
+
+
+
+
+
+    }
+}
+
+
+
