@@ -317,7 +317,9 @@ export async function LastSevenDays(req,res){
     try{
 
 
-        const days = req.query.days
+        const dayselement = req.query.days
+
+        const days = Number(dayselement)
 
 
         const sevenDaysAgo = new Date();
@@ -346,9 +348,32 @@ const sevendaysdata = await FormModel.aggregate([
   },
   {
     $sort: { _id: 1 }
-  }
+  },
+  
 ]);
 
+
+const totalsevendaysdata = await FormModel.aggregate([
+  {
+    $match: {
+      createdAt: { $gte: sevenDaysAgo }
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      price: { $sum: "$price" },
+      sold: { $sum: "$sold" },
+      profit: { $sum: "$profit" },
+      sales: { $sum: 1 },
+    
+    }
+  },
+  {
+    $sort: { _id: 1 }
+  },
+  
+]);
 
 
 
@@ -358,7 +383,7 @@ console.log(sevendaysdata)
 return res.status(200).json({
     error:false,
     success:true,
-    data:sevendaysdata
+    data:sevendaysdata,totalsevendaysdata
 })
 
 
@@ -611,6 +636,180 @@ return res.status(200).json({
 
     }
 }
+
+
+
+
+export async function MonthlyData(req,res){
+
+
+
+    try{
+
+
+        const months = req.query.month
+        
+  const years = req.query.year
+
+  const year = Number(years)
+const month = Number(months)
+
+  
+      const start = new Date(year, month, 1);
+start.setHours(0, 0, 0, 0);
+
+const end = new Date(year, month + 1, 1);
+end.setHours(0, 0, 0, 0);
+
+         
+
+
+console.log(start,end)
+console.log(start.toLocaleString());
+console.log(end.toLocaleString());
+
+        const yeardata = await FormModel.aggregate([{
+         
+                $match:{
+
+                    createdAt:{
+                        $gte:start,
+                        $lte:end
+                    }
+
+                }
+            },{
+
+
+          $group:{
+            _id:null,
+
+            sold:{$sum:"$sold"},
+             price:{$sum:"$price"},
+              profit:{$sum:"$profit"},
+               sales:{$sum:1},
+               records:{$push:"$$ROOT"}
+
+           
+
+
+          },
+        },
+          {
+            $sort:{_id:-1}
+        }
+
+
+    ])
+
+
+        
+
+
+return res.status(200).json({
+    error:false,
+    success:true,
+    data:yeardata
+})
+
+
+    }
+    catch(error){
+
+        return res.status(500).json({
+    error:true,
+    success:false,
+   message:error.message || error
+})
+
+
+
+
+
+
+
+    }
+}
+
+
+export async function SearchData(req,res){
+
+
+
+    try{
+
+const search_id = req.query.search
+         
+     
+
+        const searchdata = await FormModel.aggregate([{
+         
+                $match:{
+                    $or:[
+                        {
+
+                    customer:{$regex:search_id, $options:"i"}},
+                   { product:{$regex:search_id, $options:"i"}},
+                  
+                 {   desc:{$regex:search_id, $options:"i"}},
+                  
+                    ]
+
+                }
+            },{
+
+
+          $group:{
+            _id:null,
+
+            sold:{$sum:"$sold"},
+             price:{$sum:"$price"},
+              profit:{$sum:"$profit"},
+               sales:{$sum:1},
+         
+               records:{$push:"$$ROOT"}
+
+           
+
+
+          },
+        },
+          {
+            $sort:{_id:-1}
+        }
+
+
+    ])
+
+
+        
+
+
+return res.status(200).json({
+    error:false,
+    success:true,
+    data:searchdata
+})
+
+
+    }
+    catch(error){
+
+        return res.status(500).json({
+    error:true,
+    success:false,
+   message:error.message || error
+})
+
+
+
+
+
+
+
+    }
+}
+
 
 
 
