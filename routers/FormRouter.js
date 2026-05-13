@@ -1,6 +1,6 @@
 
 import {Router} from 'express'
-import { DatabyOneDate, Elements, FormController, GroupByDates, LastSevenDays, SubElements } from '../controllers/form.controllers.js'
+import { DatabyOneDate, DeleteSub, Elements, FormController, GroupByDates, LastSevenDays, OneDate, SubElements, YearlyData } from '../controllers/form.controllers.js'
 
 const FormRouter = Router()
 
@@ -11,4 +11,7 @@ FormRouter.get('/form-get',Elements)
 FormRouter.get('/form-dateget',DatabyOneDate)
 FormRouter.get('/form-datesget',GroupByDates)
 FormRouter.get('/form-sevenget',LastSevenDays)
+FormRouter.get('/form-date',OneDate)
+FormRouter.delete('/form-subdelete',DeleteSub)
+FormRouter.get('/form-year',YearlyData)
 export default FormRouter

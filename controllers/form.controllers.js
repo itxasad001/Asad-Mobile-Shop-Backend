@@ -1,3 +1,4 @@
+import { model } from "mongoose"
 import FormModel from "../models/form.js"
 
 export async function FormController(req,res){
@@ -316,8 +317,11 @@ export async function LastSevenDays(req,res){
     try{
 
 
+        const days = req.query.days
+
+
         const sevenDaysAgo = new Date();
-sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+sevenDaysAgo.setDate(sevenDaysAgo.getDate() - days);
        
 const sevendaysdata = await FormModel.aggregate([
   {
@@ -375,6 +379,239 @@ return res.status(200).json({
 
     }
 }
+
+
+
+export async function OneDate(req,res){
+
+
+
+    try{
+
+        
+
+        const date = req.query.date
+
+    console.log(date)
+
+      const  datefirst = new Date(date)
+      console.log(datefirst)
+    const datelast  = new Date(date)
+
+        const start= datefirst
+        start.setHours(0,0,0,0)
+        const end = datelast
+        end.setHours(23,59,59,99)
+
+        
+       
+
+      const dateelement = await FormModel.aggregate([
+  {
+    $match: {
+      createdAt: { $gt: start,
+        $lt:end
+       }
+    }
+  },
+  {
+    $group: {
+      _id: {
+        $dateToString: {
+          format: "%d-%b-%Y",
+          date: "$createdAt"
+        }
+      },
+      price: { $sum: "$price" },
+      sold: { $sum: "$sold" },
+      profit: { $sum: "$profit" },
+      sales: { $sum: 1 },
+      records: { $push: "$$ROOT" }
+    }
+  },
+  {
+    $sort: { _id: 1 }
+  }
+]);
+
+
+
+
+
+console.log(dateelement)
+
+
+return res.status(200).json({
+    error:false,
+    success:true,
+    data:dateelement
+})
+
+
+    }
+    catch(error){
+
+        return res.status(500).json({
+    error:true,
+    success:false,
+   message:error.message || error
+})
+
+
+
+
+
+
+
+    }
+}
+
+
+
+export async function DeleteSub(req,res){
+
+
+
+    try{
+
+        const _id = req.query._id
+
+
+        console.log(_id)
+
+
+        const deletesubelement = await FormModel.findByIdAndDelete({_id:_id}
+        
+        )
+
+        
+
+        
+
+
+console.log(deletesubelement)
+
+
+return res.status(200).json({
+    error:false,
+    success:true,
+    data:deletesubelement
+})
+
+
+    }
+    catch(error){
+
+        return res.status(500).json({
+    error:true,
+    success:false,
+   message:error.message || error
+})
+
+
+
+
+
+
+
+    }
+}
+
+
+
+
+
+export async function YearlyData(req,res){
+
+
+
+    try{
+
+        
+  const years = req.query.year
+
+  const year = Number(years)
+
+  
+        const start = new Date(year,1,1)
+
+        start.setHours(0,0,0,0)
+
+
+         const end = new Date(year+1 , 0  , 1)
+
+         end.setHours(23,59,59,99)
+
+         console.log(start,end)
+
+         
+
+
+
+
+        const yeardata = await FormModel.aggregate([{
+         
+                $match:{
+
+                    createdAt:{
+                        $gte:start,
+                        $lte:end
+                    }
+
+                }
+            },{
+
+
+          $group:{
+            _id:null,
+
+            sold:{$sum:"$sold"},
+             price:{$sum:"$price"},
+              profit:{$sum:"$profit"},
+               sales:{$sum:1},
+               records:{$push:"$$ROOT"}
+
+           
+
+
+          },
+        },
+          {
+            $sort:{_id:-1}
+        }
+
+
+    ])
+
+
+        
+
+
+return res.status(200).json({
+    error:false,
+    success:true,
+    data:yeardata
+})
+
+
+    }
+    catch(error){
+
+        return res.status(500).json({
+    error:true,
+    success:false,
+   message:error.message || error
+})
+
+
+
+
+
+
+
+    }
+}
+
 
 
 
