@@ -21,7 +21,19 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Server! The API is working.')
 })
 
-Database()
+app.use(async (req, res, next) => {
+  try {
+    await Database();
+    next();
+  } catch (error) {
+    console.error("DB Connection Error:", error);
+    res.status(500).json({
+      error: true,
+      success: false,
+      message: error.message,
+    });
+  }
+});
 
 
 
