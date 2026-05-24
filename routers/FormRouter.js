@@ -16,5 +16,5 @@ FormRouter.delete('/form-subdelete',DeleteSub)
 FormRouter.get('/form-year',YearlyData)
 FormRouter.get('/form-month',MonthlyData)
 FormRouter.get('/form-search',SearchData)
-FormRouter.get('/form-search',SearchData)
+
 export default FormRouter
