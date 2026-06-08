@@ -12,7 +12,7 @@ const FormSchema = new mongoose.Schema({
 
 },{timestamps:true})
 
-const FormModel = mongoose.model('ShopData',FormSchema)
+const FormModel = mongoose.model('expense',FormSchema)
 
 
 export default FormModel
