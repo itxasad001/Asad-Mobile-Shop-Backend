@@ -255,9 +255,10 @@ const uniqueDates = await FormModel.aggregate([
     {
       $group: {
         _id: {
-          $dateToString: {
-            format: "%d-%b-%Y",
-            date: "$createdAt"
+          $dateTrunc: {
+           
+            date: "$createdAt",
+            unit: "day"
           }
         },
       
