@@ -813,4 +813,33 @@ return res.status(200).json({
 
 
 
+export async function Data(req,res){
+    try{
+
+        const data = await FormModel.find({})
+
+        console.log(data)
+
+        return res.status(200).json({
+            error:false,
+            success:true,
+            data:data
+        })
+
+    }
+    catch{
+
+          return res.status(500).json({
+            error:true,
+            success:false,
+            message:error.message || error
+        })
+
+
+    }
+}
+
+
+
+
 
