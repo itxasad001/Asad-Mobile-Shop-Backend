@@ -3,16 +3,16 @@ import mongoose, { mongo } from 'mongoose'
 const FormSchema = new mongoose.Schema({
 
 
-     product:{type:String},price:{type:Number},
+     product:{type:String},price:{type:String},
      
-     sold:{type:Number},customer:{type:String},
+     sold:{type:String},customer:{type:String},
      desc:{type:String},
-        profit:{type:Number}
+        profit:{type:String}
 
 
 },{timestamps:true})
 
-const FormModel = mongoose.model('expense',FormSchema)
+const FormModel = mongoose.model('jobs',FormSchema)
 
 
 export default FormModel

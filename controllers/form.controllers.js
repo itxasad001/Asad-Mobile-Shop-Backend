@@ -8,8 +8,8 @@ export async function FormController(req,res){
 
     try{
 
-     const {product,price,sold,customer,desc,profit} = req.body 
-
+     const {product,price,sold,customer,desc} = req.body 
+     console.log(req.body)
    
 
    
@@ -28,15 +28,15 @@ export async function FormController(req,res){
 
              product,
              price
-             ,sold,customer,desc,profit
+             ,sold,customer,desc
 
 
 
 
 
         })
-
-        console.log(typeof(FormElement.price))
+      console.log(FormElement)
+  
         await FormElement.save();
 
 
