@@ -142,8 +142,8 @@ export async function Elements(req,res){
 
     $group:{
         _id:null,
-       price:{$sum:"$price"},
-       sold:{$sum:"$sold"}
+       price:{$count:{}},
+       sold:{$count:{}}
 
     }
 
@@ -161,7 +161,7 @@ export async function Elements(req,res){
 
    console.log(price)
 
-   const profit = sold - price
+   const profit = await FormModel.find().countDocuments()
 
    
 
