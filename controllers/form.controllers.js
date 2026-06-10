@@ -138,38 +138,40 @@ export async function Elements(req,res){
       
 
         
-   const result = await FormModel.aggregate([{
+   const profit= await FormModel.countDocuments({
+  sold: { $exists: true, $type: "string", $ne: 0 }
+})
 
-    $group:{
-        _id:null,
-       price:{$count:{}},
-       sold:{$count:{}}
-
-    }
-
-   }])
+const sold = await FormModel.countDocuments({
+  desc: { $exists: true, $type: "string", $ne: 0 }
+})
 
 
+   const sales = await FormModel.countDocuments({
+  product: { $exists: true, $type: "string", $ne: 0 }
+})
 
-   const sales = await FormModel.find().countDocuments()
+  const price = await FormModel.countDocuments({
+  customer: { $exists: true, $type: "string", $ne: 0 }
+})
 
 
 
 
-   const price = result[0].price
-   const sold = result[0].sold
+
+   
+   
 
    console.log(price)
 
-   const profit = await FormModel.find().countDocuments()
-
+   
    
 
         return res.status(200).json({
             error:false,
             success:true,
         
-            price,sold,profit,sales
+            price,profit,sales,sold
         })
 
 
