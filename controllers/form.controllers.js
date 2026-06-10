@@ -8,12 +8,12 @@ export async function FormController(req,res){
 
     try{
 
-     const {product,price,sold,customer,desc} = req.body 
+     const {product,price,sold,customer,desc,profit} = req.body 
 
-     const Price = Number(price)
-     const Sold = Number(sold)
+     const Price = price
+     const Sold = sold
 
-     const profit = Sold-Price
+   
     
 
      console.log(Price)
@@ -264,9 +264,9 @@ const uniqueDates = await FormModel.aggregate([
       
    
 
-        price: { $sum: "$price" },
-            sold: { $sum: "$sold" },
-            profit: { $sum: "$profit" },
+        price: { $sum: 1},
+            sold: { $sum: 1 },
+            profit: { $sum: 1 },
         sales: { $sum: 1 } ,
         records: { $push: "$$ROOT" }
    },
