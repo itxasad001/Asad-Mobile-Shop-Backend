@@ -143,7 +143,7 @@ export async function Elements(req,res){
 })
 
 const sold = await FormModel.countDocuments({
-  desc: { $exists: true, $type: "string", $ne: 0 }
+    customer: { $exists: true, $type: "string", $ne: 0 }
 })
 
 
@@ -152,7 +152,7 @@ const sold = await FormModel.countDocuments({
 })
 
   const price = await FormModel.countDocuments({
-  customer: { $exists: true, $type: "string", $ne: 0 }
+  desc: { $exists: true, $type: "string", $ne: "" }
 })
 
 
