@@ -10,13 +10,12 @@ export async function FormController(req,res){
 
      const {product,price,sold,customer,desc,profit} = req.body 
 
-     const Price = price
-     const Sold = sold
+   
 
    
     
 
-     console.log(Price)
+    
 
 
 
@@ -28,8 +27,8 @@ export async function FormController(req,res){
 
 
              product,
-             price:Price
-             ,sold:Sold,customer,desc,profit
+             price
+             ,sold,customer,desc,profit
 
 
 
