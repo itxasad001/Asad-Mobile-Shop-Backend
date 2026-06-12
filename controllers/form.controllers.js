@@ -8,9 +8,14 @@ export async function FormController(req,res){
 
     try{
 
-     const {product,price,sold,customer,desc} = req.body 
+     const {product,price,sold,
+       customer
+        ,desc} = req.body 
+
+
      console.log(req.body)
-   
+
+     
 
    
     
@@ -142,9 +147,21 @@ export async function Elements(req,res){
   sold: { $exists: true, $type: "string", $ne: 0 }
 })
 
-const sold = await FormModel.countDocuments({
-    customer: { $exists: true, $type: "string", $ne: 0 }
-})
+const soldp = await FormModel.aggregate([{
+    $group:{
+        _id:null,
+
+        customer:{$sum : "$customer"}
+
+    }
+
+    
+   
+}])
+
+const sold = soldp.length > 0 ? soldp[0].customer : 0;
+
+console.log(sold)
 
 
    const sales = await FormModel.countDocuments({
