@@ -12,7 +12,7 @@ const FormSchema = new mongoose.Schema({
 
 },{timestamps:true})
 
-const FormModel = mongoose.model('melbcompanies',FormSchema)
+const FormModel = mongoose.model('',FormSchema)
 
 
 export default FormModel
