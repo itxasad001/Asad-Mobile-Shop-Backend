@@ -5,8 +5,8 @@ const FormSchema = new mongoose.Schema({
 
      product:{type:String},price:{type:String},
      
-     sold:{type:String},customer:{type:String},
-     desc:{type:Number},
+     sold:{type:Number},customer:{type:String},
+     desc:{type:String},
 
         profit:{type:String}
 
