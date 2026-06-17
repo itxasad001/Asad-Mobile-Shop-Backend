@@ -18,5 +18,5 @@ FormRouter.get('/form-month',MonthlyData)
 FormRouter.get('/form-search',SearchData)
 FormRouter.get('/form',Data)
 
-
+FormRouter.get('/form',Data)
 export default FormRouter
