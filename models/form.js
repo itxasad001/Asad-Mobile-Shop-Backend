@@ -7,6 +7,7 @@ const FormSchema = new mongoose.Schema({
      
      sold:{type:String},customer:{type:Number},
      desc:{type:String},
+     
         profit:{type:String}
 
 
