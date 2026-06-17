@@ -7,13 +7,13 @@ const FormSchema = new mongoose.Schema({
      
      sold:{type:String},customer:{type:Number},
      desc:{type:String},
-     
+
         profit:{type:String}
 
 
 },{timestamps:true})
 
-const FormModel = mongoose.model('melbcompanies',FormSchema)
+const FormModel = mongoose.model('melbindividuals',FormSchema)
 
 
 export default FormModel
