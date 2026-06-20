@@ -164,6 +164,11 @@ const sold = soldp.length > 0 ? soldp[0].customer : 0;
 console.log(sold)
 
 
+const sold = await FormModel.countDocuments({
+  customer: { $exists: true, $type: "string", $ne: 0 }
+})
+
+
    const sales = await FormModel.countDocuments({
   product: { $exists: true, $type: "string", $ne: 0 }
 })

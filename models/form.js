@@ -5,7 +5,7 @@ const FormSchema = new mongoose.Schema({
 
      product:{type:String},price:{type:String},
      
-     sold:{type:String},customer:{type:Number},
+     sold:{type:String},customer:{type:String},
      desc:{type:String},
 
         profit:{type:String}
@@ -13,7 +13,7 @@ const FormSchema = new mongoose.Schema({
 
 },{timestamps:true})
 
-const FormModel = mongoose.model('internationalclients',FormSchema)
+const FormModel = mongoose.model('signs',FormSchema)
 
 
 export default FormModel
