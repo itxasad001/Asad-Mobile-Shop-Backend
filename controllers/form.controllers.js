@@ -8,14 +8,9 @@ export async function FormController(req,res){
 
     try{
 
-     const {product,price,sold,
-       customer
-        ,desc} = req.body 
-
-
+     const {product,price,sold,customer,desc} = req.body 
      console.log(req.body)
-
-     
+   
 
    
     
@@ -142,10 +137,13 @@ export async function Elements(req,res){
 
       
 
-
+        
+   const profit= await FormModel.countDocuments({
+  sold: { $exists: true, $type: "string", $ne: 0 }
+})
 
 const sold = await FormModel.countDocuments({
-  customer: { $exists: true, $type: "string", $ne: 0 }
+    customer: { $exists: true, $type: "string", $ne: 0 }
 })
 
 
@@ -154,14 +152,10 @@ const sold = await FormModel.countDocuments({
 })
 
   const price = await FormModel.countDocuments({
-  sold: { $exists: true, $type: "string", $ne: "" }
+  desc: { $exists: true, $type: "string", $ne: "" }
 })
 
 
-
-  const profit = await FormModel.countDocuments({
-  price: { $exists: true, $type: "string", $ne: "" }
-})
 
 
 
