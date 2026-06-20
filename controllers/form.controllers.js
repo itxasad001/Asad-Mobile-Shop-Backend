@@ -142,26 +142,6 @@ export async function Elements(req,res){
 
       
 
-        
-   const profit= await FormModel.countDocuments({
-  sold: { $exists: true, $type: "string", $ne: 0 }
-})
-
-const soldp = await FormModel.aggregate([{
-    $group:{
-        _id:null,
-
-        customer:{$sum : "$customer"}
-
-    }
-
-    
-   
-}])
-
-const sold = soldp.length > 0 ? soldp[0].customer : 0;
-
-console.log(sold)
 
 
 const sold = await FormModel.countDocuments({
