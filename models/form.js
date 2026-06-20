@@ -12,7 +12,7 @@ const FormSchema = new mongoose.Schema({
 
 },{timestamps:true})
 
-const FormModel = mongoose.model('jobs',FormSchema)
+const FormModel = mongoose.model('jobsapplieded',FormSchema)
 
 
 export default FormModel
