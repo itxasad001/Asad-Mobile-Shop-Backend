@@ -159,6 +159,10 @@ const sold = await FormModel.countDocuments({
 
 
 
+  const profit = await FormModel.countDocuments({
+  price: { $exists: true, $type: "string", $ne: "" }
+})
+
 
 
    
