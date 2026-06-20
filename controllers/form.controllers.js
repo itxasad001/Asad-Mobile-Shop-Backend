@@ -154,7 +154,7 @@ const sold = await FormModel.countDocuments({
 })
 
   const price = await FormModel.countDocuments({
-  desc: { $exists: true, $type: "string", $ne: "" }
+  sold: { $exists: true, $type: "string", $ne: "" }
 })
 
 
