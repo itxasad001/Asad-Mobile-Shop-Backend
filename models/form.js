@@ -5,14 +5,15 @@ const FormSchema = new mongoose.Schema({
 
      product:{type:String},price:{type:String},
      
-     sold:{type:String},customer:{type:String},
+     sold:{type:String},customer:{type:Number},
      desc:{type:String},
+
         profit:{type:String}
 
 
 },{timestamps:true})
 
-const FormModel = mongoose.model('jobsapplieded',FormSchema)
+const FormModel = mongoose.model('internationalclients',FormSchema)
 
 
 export default FormModel
