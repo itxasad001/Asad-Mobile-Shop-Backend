@@ -285,7 +285,7 @@ const uniqueDates = await FormModel.aggregate([
         price: { $sum: 1},
             sold: { $sum: 1 },
             profit: { $sum: 1 },
-        customer: { $sum: "$customer" } ,
+        sales: { $sum: "$customer" } ,
         records: { $push: "$$ROOT" }
    },
     },
