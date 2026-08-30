@@ -3,17 +3,16 @@ import mongoose, { mongo } from 'mongoose'
 const FormSchema = new mongoose.Schema({
 
 
-     product:{type:String},price:{type:String},
+     product:{type:String},price:{type:Number},
      
-     sold:{type:String},customer:{type:Number},
+     sold:{type:Number},customer:{type:String},
      desc:{type:String},
-
-        profit:{type:String}
+        profit:{type:Number}
 
 
 },{timestamps:true})
 
-const FormModel = mongoose.model('australiaresearh',FormSchema)
+const FormModel = mongoose.model('ShopData',FormSchema)
 
 
 export default FormModel

@@ -8,19 +8,15 @@ export async function FormController(req,res){
 
     try{
 
-     const {product,price,sold,
-       customer
-        ,desc} = req.body 
+     const {product,price,sold,customer,desc} = req.body 
 
+     const Price = Number(price)
+     const Sold = Number(sold)
 
-     console.log(req.body)
-
-     
-
-   
+     const profit = Sold-Price
     
 
-    
+     console.log(Price)
 
 
 
@@ -32,16 +28,16 @@ export async function FormController(req,res){
 
 
              product,
-             price
-             ,sold,customer,desc
+             price:Price
+             ,sold:Sold,customer,desc,profit
 
 
 
 
 
         })
-      console.log(FormElement)
-  
+
+        console.log(typeof(FormElement.price))
         await FormElement.save();
 
 
@@ -143,52 +139,38 @@ export async function Elements(req,res){
       
 
         
-   const profit= await FormModel.countDocuments({
-  sold: { $exists: true, $type: "string", $ne: 0 }
-})
+   const result = await FormModel.aggregate([{
 
-const soldp = await FormModel.aggregate([{
     $group:{
         _id:null,
-
-        customer:{$sum : "$customer"}
+       price:{$sum:"$price"},
+       sold:{$sum:"$sold"}
 
     }
 
-    
-   
-}])
-
-const sold = soldp.length > 0 ? soldp[0].customer : 0;
-
-console.log(sold)
+   }])
 
 
-   const sales = await FormModel.countDocuments({
-  product: { $exists: true, $type: "string", $ne: 0 }
-})
 
-  const price = await FormModel.countDocuments({
-  desc: { $exists: true, $type: "string", $ne: "" }
-})
+   const sales = await FormModel.find().countDocuments()
 
 
 
 
-
-   
-   
+   const price = result[0].price
+   const sold = result[0].sold
 
    console.log(price)
 
-   
+   const profit = sold - price
+
    
 
         return res.status(200).json({
             error:false,
             success:true,
         
-            price,profit,sales,sold
+            price,sold,profit,sales
         })
 
 
@@ -266,10 +248,34 @@ export async function GroupByDates(req,res){
 
 
 
+
+
     try{
+        const date = new Date()
+        
+   const start = new Date(
+date.getFullYear(),
+date.getMonth(),
+1
+)
+
+
+const end = new Date(
+    date.getFullYear(),
+    date.getMonth() +1,
+    1
+
+)
        
 
 const uniqueDates = await FormModel.aggregate([
+    {$match:{
+
+        createdAt:{
+            $gte:start,
+            $lt:end
+        }
+    }},
     {
       $group: {
         _id: {
@@ -282,10 +288,10 @@ const uniqueDates = await FormModel.aggregate([
       
    
 
-        price: { $sum: 1},
-            sold: { $sum: 1 },
-            profit: { $sum: 1 },
-        sales: { $sum: "$customer" } ,
+        price: { $sum: "$price" },
+            sold: { $sum: "$sold" },
+            profit: { $sum: "$profit" },
+        sales: { $sum: 1 } ,
         records: { $push: "$$ROOT" }
    },
     },
