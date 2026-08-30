@@ -178,7 +178,12 @@ const end = new Date(
 
 
 
-   const sales = await FormModel.find().countDocuments()
+const sales = await FormModel.countDocuments({
+  createdAt: {
+    $gte: start,
+    $lt: end
+  }
+});
 
 
 
