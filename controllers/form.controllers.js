@@ -707,6 +707,15 @@ export async function MonthlyData(req,res){
         
   const years = req.query.year
 
+
+ 
+ 
+
+
+
+
+
+
   const year = Number(years)
 const month = Number(months)
 
@@ -726,7 +735,8 @@ console.log(end.toLocaleString());
 
         const yeardata = await FormModel.aggregate([{
          
-                $match:{
+                 $match: month === 13
+      ? {}:{
 
                     createdAt:{
                         $gte:start,
@@ -738,7 +748,7 @@ console.log(end.toLocaleString());
 
 
           $group:{
-             _id: {
+             _id:{
           $dateTrunc: {
            
             date: "$createdAt",
@@ -808,6 +818,14 @@ return res.status(200).json({
 
 
     }
+
+
+
+
+
+
+
+    
 }
 
 
