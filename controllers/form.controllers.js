@@ -135,11 +135,37 @@ end.setHours(23,59,59,999);
 export async function Elements(req,res){
 
     try{
+          const date = new Date()
+        
+   const start = new Date(
+date.getFullYear(),
+date.getMonth(),
+1
+)
+
+
+const end = new Date(
+    date.getFullYear(),
+    date.getMonth() +1,
+    1
+)
 
       
 
         
-   const result = await FormModel.aggregate([{
+   const result = await FormModel.aggregate([
+
+    {
+        $match:{
+            createdAt:{
+                $gte:start,
+                $lt:end
+            }
+            
+        }
+    }
+    ,
+    {
 
     $group:{
         _id:null,
